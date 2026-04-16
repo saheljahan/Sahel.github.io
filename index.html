@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sahel | Data Analysis</title>
-
+  <title>Sahel Jahan | About Me</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,22 +10,31 @@
       color: #333;
     }
 
-    header {
+    nav {
       background: #1f2937;
+      padding: 15px 30px;
+    }
+
+    nav a {
       color: white;
-      padding: 40px;
+      text-decoration: none;
+      margin-right: 25px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
       text-align: center;
+      padding: 60px 20px 30px 20px;
+      background: white;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 36px;
-    }
-
-    header p {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #d1d5db;
+      margin-bottom: 10px;
+      font-size: 38px;
     }
 
     .container {
@@ -37,22 +45,9 @@
 
     .card {
       background: white;
-      padding: 20px;
-      margin-bottom: 25px;
+      padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    pre {
-      background: #111827;
-      color: #10b981;
-      padding: 15px;
-      border-radius: 8px;
-      overflow-x: auto;
     }
 
     footer {
@@ -61,69 +56,44 @@
       color: #777;
       font-size: 14px;
     }
-
-    a {
-      color: #2563eb;
-      text-decoration: none;
-    }
-
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Sahel Jahan</h1>
-  <p>Data Analysis | RNA-seq | R & Python</p>
-</header>
+  <nav>
+    <a href="index.html">About Me</a>
+    <a href="rnaseq.html">RNA-seq Data Analysis</a>
+    <a href="stats.html">Stats in Bio</a>
+  </nav>
 
-<div class="container">
+  <header>
+    <h1>Sahel Jahan</h1>
+    <p>Data analysis, RNA-seq workflows, and biostatistics notes</p>
+  </header>
 
-  <div class="card">
-    <h2>About Me</h2>
-    <p>
-      I work on RNA-seq analysis, time-course experiments, and statistical modeling using DESeq2.
-      This site is where I share practical tips, clean code, and workflows that actually save time.
-    </p>
+  <div class="container">
+    <div class="card">
+      <h2>About Me</h2>
+      <p>
+        Hi, I’m Sahel. I’m interested in data analysis in biology, especially RNA-seq,
+        statistics, and practical coding in R and Python.
+      </p>
+
+      <p>
+        I made this website to share tips, workflows, and code that are actually useful
+        for students and researchers working with biological data.
+      </p>
+
+      <p>
+        I’ll be posting RNA-seq analysis ideas, stats concepts for biology, and examples
+        from real analysis problems.
+      </p>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>🔥 DESeq2 Tip: Compare Timepoints Correctly</h2>
-    <p>Use interaction terms instead of naive comparisons:</p>
-
-    <pre>
-design = ~ condition + time + condition:time
-dds <- DESeq(dds)
-results(dds, name="conditionTreatment.timeD4")
-    </pre>
-
-    <p><strong>Why it matters:</strong> avoids incorrect conclusions in time-course data.</p>
-  </div>
-
-  <div class="card">
-    <h2>📊 Python: Quick Pandas Trick</h2>
-
-    <pre>
-df.groupby("gene")["expression"].mean().sort_values()
-    </pre>
-
-    <p>Fast way to summarize expression across groups.</p>
-  </div>
-
-  <div class="card">
-    <h2>Coming Soon</h2>
-    <ul>
-      <li>Full RNA-seq workflow</li>
-      <li>DESeq2 troubleshooting guide</li>
-      <li>Visualization tips (ggplot, seaborn)</li>
-    </ul>
-  </div>
-
-</div>
-
-<footer>
-  <p>Built by Sahel • Hosted on GitHub Pages</p>
-</footer>
+  <footer>
+    Built by Sahel
+  </footer>
 
 </body>
 </html>
