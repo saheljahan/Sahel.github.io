@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sahel Jahan | Stats in Bio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #333;
+    }
+
+    nav {
+      background: #1f2937;
+      padding: 15px 30px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-right: 25px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px 20px 20px;
+      background: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    pre {
+      background: #111827;
+      color: #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">About Me</a>
+    <a href="rnaseq.html">RNA-seq Data Analysis</a>
+    <a href="stats.html">Stats in Bio</a>
+  </nav>
+
+  <header>
+    <h1>Stats in Bio</h1>
+    <p>Biostatistics ideas made simple</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>Why statistics matters in biology</h2>
+      <p>
+        Biological data is noisy, so statistics helps us decide whether a pattern is real,
+        meaningful, and reproducible.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Example topics</h2>
+      <ul>
+        <li>P-values and adjusted p-values</li>
+        <li>Multiple testing correction</li>
+        <li>Linear models in biology</li>
+        <li>Experimental design basics</li>
+        <li>How to interpret effect sizes</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Small R example</h2>
+      <pre>
+model <- lm(expression ~ treatment + sex, data = df)
+summary(model)
+      </pre>
+    </div>
+  </div>
+
+  <footer>
+    Built by Sahel
+  </footer>
+
+</body>
+</html>
