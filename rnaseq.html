@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sahel Jahan | RNA-seq Data Analysis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #333;
+    }
+
+    nav {
+      background: #1f2937;
+      padding: 15px 30px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-right: 25px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px 20px 20px;
+      background: white;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    pre {
+      background: #111827;
+      color: #10b981;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">About Me</a>
+    <a href="rnaseq.html">RNA-seq Data Analysis</a>
+    <a href="stats.html">Stats in Bio</a>
+  </nav>
+
+  <header>
+    <h1>RNA-seq Data Analysis</h1>
+    <p>Workflows, tips, and code</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>DESeq2 Time-course Design</h2>
+      <p>One useful approach for time-course RNA-seq is using an interaction design:</p>
+
+      <pre>
+design = ~ sex + condition + time + condition:time
+dds <- DESeq(dds)
+results(dds, name="conditionTreatment.timeD4")
+      </pre>
+
+      <p>
+        This helps test whether treatment effects change across time instead of doing
+        overly simple comparisons.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Things I want to post here</h2>
+      <ul>
+        <li>DESeq2 workflow tips</li>
+        <li>LRT vs Wald test explanation</li>
+        <li>Time-course analysis ideas</li>
+        <li>How to include covariates like sex</li>
+        <li>Useful RNA-seq plots</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    Built by Sahel
+  </footer>
+
+</body>
+</html>
