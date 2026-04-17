@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statistical Tests Basics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8fafc;
+      color: #1f2937;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #1e40af;
+      padding: 12px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .intro {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .test-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .test-card h2 {
+      margin-top: 0;
+      color: #2563eb;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1e3a8a;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      background: #e5e7eb;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Statistical Tests Basics</h1>
+    <p>Quick explanations of common statistical tests and when to use them</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="rna-seq.html">RNA-seq Data Analysis</a>
+    <a href="stats-bio.html">Stats in Bio</a>
+    <a href="stats-basics.html">Stat Tests</a>
+    <a href="about.html">About Me</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="intro">
+      <h2>Why this page?</h2>
+      <p>
+        This page gives a beginner-friendly summary of basic statistical tests often used in biology,
+        data analysis, and research. It is meant as a quick guide to help choose the right test.
+      </p>
+    </div>
+
+    <div class="test-card">
+      <h2>t-test</h2>
+      <p><strong>What it is:</strong> A test used to compare the means of two groups.</p>
+      <p><strong>Best for:</strong> Checking whether one group is significantly different from another, like treatment vs control.</p>
+      <span class="tag">Two groups</span>
+    </div>
+
+    <div class="test-card">
+      <h2>Paired t-test</h2>
+      <p><strong>What it is:</strong> A version of the t-test used when the two measurements are related.</p>
+      <p><strong>Best for:</strong> Before vs after comparisons in the same samples or subjects.</p>
+      <span class="tag">Matched samples</span>
+    </div>
+
+    <div class="test-card">
+      <h2>ANOVA</h2>
+      <p><strong>What it is:</strong> A test used to compare the means of three or more groups.</p>
+      <p><strong>Best for:</strong> Experiments with multiple conditions, treatments, or time points.</p>
+      <span class="tag">Three or more groups</span>
+    </div>
+
+    <div class="test-card">
+      <h2>Chi-square test</h2>
+      <p><strong>What it is:</strong> A test used for categorical data to see whether observed counts differ from expected counts.</p>
+      <p><strong>Best for:</strong> Tables of counts, proportions, or category frequencies.</p>
+      <span class="tag">Categorical data</span>
+    </div>
+
+    <div class="test-card">
+      <h2>Correlation</h2>
+      <p><strong>What it is:</strong> A measure of how strongly two variables are related.</p>
+      <p><strong>Best for:</strong> Seeing whether two continuous variables move together, like gene expression and phenotype.</p>
+      <span class="tag">Relationship between variables</span>
+    </div>
+
+    <div class="test-card">
+      <h2>Linear Regression</h2>
+      <p><strong>What it is:</strong> A method to model the relationship between one outcome and one or more predictors.</p>
+      <p><strong>Best for:</strong> Predicting outcomes and testing how variables affect a response.</p>
+      <span class="tag">Prediction and association</span>
+    </div>
+
+    <div class="test-card">
+      <h2>FDR correction</h2>
+      <p><strong>What it is:</strong> A way to adjust p-values when doing many tests, to reduce false discoveries.</p>
+      <p><strong>Best for:</strong> RNA-seq, genomics, or any analysis with multiple comparisons.</p>
+      <span class="tag">Multiple testing</span>
+    </div>
+
+    <div class="test-card">
+      <h2>Non-parametric tests</h2>
+      <p><strong>What it is:</strong> Tests that do not assume normal distribution of the data.</p>
+      <p><strong>Best for:</strong> Small sample sizes, skewed data, or when assumptions of t-tests/ANOVA are not met.</p>
+      <span class="tag">Non-normal data</span>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Made by Sahel | Statistics basics for biology and data analysis</p>
+  </footer>
+
+</body>
+</html>
