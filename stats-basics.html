@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Statistical Tests Basics</title>
+  <title>Statistical Tests</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
       background: #f8fafc;
       color: #1f2937;
+      margin: 0;
+      padding: 0;
     }
 
     header {
       background: #2563eb;
       color: white;
-      padding: 30px 20px;
       text-align: center;
+      padding: 30px 20px;
     }
 
     nav {
@@ -35,136 +35,277 @@
 
     .container {
       max-width: 1000px;
-      margin: 40px auto;
+      margin: 30px auto;
       padding: 20px;
     }
 
-    .intro {
+    .card {
       background: white;
+      border-radius: 14px;
       padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    .test-card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .test-card h2 {
-      margin-top: 0;
+    h2 {
       color: #2563eb;
+      margin-top: 0;
     }
 
-    .tag {
-      display: inline-block;
-      background: #dbeafe;
-      color: #1e3a8a;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      margin-top: 10px;
+    textarea, input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .result {
+      margin-top: 15px;
+      background: #eff6ff;
+      border-left: 5px solid #2563eb;
+      padding: 12px;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+
+    .small {
+      color: #475569;
+      font-size: 0.95rem;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      margin-top: 40px;
       background: #e5e7eb;
-      font-size: 0.9rem;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Statistical Tests Basics</h1>
-    <p>Quick explanations of common statistical tests and when to use them</p>
+    <h1>Statistical Tests</h1>
+    <p>Run basic biostatistics tests directly in your browser</p>
   </header>
 
   <nav>
     <a href="index.html">Home</a>
     <a href="rna-seq.html">RNA-seq Data Analysis</a>
     <a href="stats-bio.html">Stats in Bio</a>
-    <a href="stats-basics.html">Stat Tests</a>
+    <a href="stats-basics.html">Statistical Tests</a>
     <a href="about.html">About Me</a>
   </nav>
 
   <div class="container">
 
-    <div class="intro">
-      <h2>Why this page?</h2>
-      <p>
-        This page gives a beginner-friendly summary of basic statistical tests often used in biology,
-        data analysis, and research. It is meant as a quick guide to help choose the right test.
+    <div class="card">
+      <h2>How to enter data</h2>
+      <p class="small">
+        Enter numbers separated by commas. Example: <br>
+        <strong>1.2, 2.3, 2.8, 3.1</strong>
       </p>
     </div>
 
-    <div class="test-card">
-      <h2>t-test</h2>
-      <p><strong>What it is:</strong> A test used to compare the means of two groups.</p>
-      <p><strong>Best for:</strong> Checking whether one group is significantly different from another, like treatment vs control.</p>
-      <span class="tag">Two groups</span>
+    <div class="card">
+      <h2>Two-sample t-test</h2>
+      <p><strong>What it is:</strong> compares the means of two independent groups.</p>
+      <p><strong>Best for:</strong> treatment vs control, or any comparison of two separate groups.</p>
+
+      <label>Group 1</label>
+      <textarea id="ttest-group1" rows="4" placeholder="e.g. 2.1, 2.5, 3.0, 2.8"></textarea>
+
+      <label>Group 2</label>
+      <textarea id="ttest-group2" rows="4" placeholder="e.g. 1.9, 2.0, 2.4, 2.2"></textarea>
+
+      <button onclick="runTTest()">Run t-test</button>
+      <div id="ttest-result" class="result"></div>
     </div>
 
-    <div class="test-card">
+    <div class="card">
       <h2>Paired t-test</h2>
-      <p><strong>What it is:</strong> A version of the t-test used when the two measurements are related.</p>
-      <p><strong>Best for:</strong> Before vs after comparisons in the same samples or subjects.</p>
-      <span class="tag">Matched samples</span>
+      <p><strong>What it is:</strong> compares two related measurements.</p>
+      <p><strong>Best for:</strong> before vs after measurements from the same samples.</p>
+
+      <label>Before</label>
+      <textarea id="paired-group1" rows="4" placeholder="e.g. 5.1, 4.8, 6.0, 5.5"></textarea>
+
+      <label>After</label>
+      <textarea id="paired-group2" rows="4" placeholder="e.g. 5.8, 5.0, 6.5, 6.1"></textarea>
+
+      <button onclick="runPairedTTest()">Run paired t-test</button>
+      <div id="paired-result" class="result"></div>
     </div>
 
-    <div class="test-card">
-      <h2>ANOVA</h2>
-      <p><strong>What it is:</strong> A test used to compare the means of three or more groups.</p>
-      <p><strong>Best for:</strong> Experiments with multiple conditions, treatments, or time points.</p>
-      <span class="tag">Three or more groups</span>
-    </div>
-
-    <div class="test-card">
-      <h2>Chi-square test</h2>
-      <p><strong>What it is:</strong> A test used for categorical data to see whether observed counts differ from expected counts.</p>
-      <p><strong>Best for:</strong> Tables of counts, proportions, or category frequencies.</p>
-      <span class="tag">Categorical data</span>
-    </div>
-
-    <div class="test-card">
-      <h2>Correlation</h2>
-      <p><strong>What it is:</strong> A measure of how strongly two variables are related.</p>
-      <p><strong>Best for:</strong> Seeing whether two continuous variables move together, like gene expression and phenotype.</p>
-      <span class="tag">Relationship between variables</span>
-    </div>
-
-    <div class="test-card">
-      <h2>Linear Regression</h2>
-      <p><strong>What it is:</strong> A method to model the relationship between one outcome and one or more predictors.</p>
-      <p><strong>Best for:</strong> Predicting outcomes and testing how variables affect a response.</p>
-      <span class="tag">Prediction and association</span>
-    </div>
-
-    <div class="test-card">
+    <div class="card">
       <h2>FDR correction</h2>
-      <p><strong>What it is:</strong> A way to adjust p-values when doing many tests, to reduce false discoveries.</p>
-      <p><strong>Best for:</strong> RNA-seq, genomics, or any analysis with multiple comparisons.</p>
-      <span class="tag">Multiple testing</span>
-    </div>
+      <p><strong>What it is:</strong> adjusts many p-values to control false discoveries.</p>
+      <p><strong>Best for:</strong> RNA-seq, omics, and multiple comparison analyses.</p>
 
-    <div class="test-card">
-      <h2>Non-parametric tests</h2>
-      <p><strong>What it is:</strong> Tests that do not assume normal distribution of the data.</p>
-      <p><strong>Best for:</strong> Small sample sizes, skewed data, or when assumptions of t-tests/ANOVA are not met.</p>
-      <span class="tag">Non-normal data</span>
+      <label>Enter p-values</label>
+      <textarea id="fdr-values" rows="4" placeholder="e.g. 0.001, 0.02, 0.04, 0.15, 0.3"></textarea>
+
+      <button onclick="runFDR()">Run FDR correction</button>
+      <div id="fdr-result" class="result"></div>
     </div>
 
   </div>
 
   <footer>
-    <p>Made by Sahel | Statistics basics for biology and data analysis</p>
+    Made by Sahel | Interactive statistical tools
   </footer>
+
+  <script>
+    function parseNumbers(text) {
+      return text
+        .split(/[\s,]+/)
+        .map(x => x.trim())
+        .filter(x => x !== "")
+        .map(Number)
+        .filter(x => !isNaN(x));
+    }
+
+    function mean(arr) {
+      return arr.reduce((a, b) => a + b, 0) / arr.length;
+    }
+
+    function variance(arr) {
+      const m = mean(arr);
+      return arr.reduce((sum, x) => sum + (x - m) ** 2, 0) / (arr.length - 1);
+    }
+
+    function stdDev(arr) {
+      return Math.sqrt(variance(arr));
+    }
+
+    function erf(x) {
+      const sign = x >= 0 ? 1 : -1;
+      x = Math.abs(x);
+
+      const a1 = 0.254829592;
+      const a2 = -0.284496736;
+      const a3 = 1.421413741;
+      const a4 = -1.453152027;
+      const a5 = 1.061405429;
+      const p = 0.3275911;
+
+      const t = 1.0 / (1.0 + p * x);
+      const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+
+      return sign * y;
+    }
+
+    function normalCDF(x) {
+      return 0.5 * (1 + erf(x / Math.sqrt(2)));
+    }
+
+    function twoTailedPFromZ(z) {
+      return 2 * (1 - normalCDF(Math.abs(z)));
+    }
+
+    function runTTest() {
+      const g1 = parseNumbers(document.getElementById("ttest-group1").value);
+      const g2 = parseNumbers(document.getElementById("ttest-group2").value);
+      const resultBox = document.getElementById("ttest-result");
+
+      if (g1.length < 2 || g2.length < 2) {
+        resultBox.textContent = "Please enter at least 2 numbers in each group.";
+        return;
+      }
+
+      const m1 = mean(g1);
+      const m2 = mean(g2);
+      const v1 = variance(g1);
+      const v2 = variance(g2);
+
+      const t = (m1 - m2) / Math.sqrt((v1 / g1.length) + (v2 / g2.length));
+
+      const pApprox = twoTailedPFromZ(t);
+
+      resultBox.textContent =
+        "Group 1 mean: " + m1.toFixed(4) + "\n" +
+        "Group 2 mean: " + m2.toFixed(4) + "\n" +
+        "t statistic: " + t.toFixed(4) + "\n" +
+        "Approx. p-value: " + pApprox.toExponential(4) + "\n\n" +
+        "Note: this page uses a normal approximation for the p-value.";
+    }
+
+    function runPairedTTest() {
+      const g1 = parseNumbers(document.getElementById("paired-group1").value);
+      const g2 = parseNumbers(document.getElementById("paired-group2").value);
+      const resultBox = document.getElementById("paired-result");
+
+      if (g1.length !== g2.length || g1.length < 2) {
+        resultBox.textContent = "Please enter the same number of values in both boxes, with at least 2 pairs.";
+        return;
+      }
+
+      const diffs = g1.map((x, i) => g2[i] - x);
+      const md = mean(diffs);
+      const sd = stdDev(diffs);
+      const t = md / (sd / Math.sqrt(diffs.length));
+      const pApprox = twoTailedPFromZ(t);
+
+      resultBox.textContent =
+        "Mean difference: " + md.toFixed(4) + "\n" +
+        "t statistic: " + t.toFixed(4) + "\n" +
+        "Approx. p-value: " + pApprox.toExponential(4) + "\n\n" +
+        "Note: this page uses a normal approximation for the p-value.";
+    }
+
+    function runFDR() {
+      const pvals = parseNumbers(document.getElementById("fdr-values").value);
+      const resultBox = document.getElementById("fdr-result");
+
+      if (pvals.length < 1) {
+        resultBox.textContent = "Please enter at least one p-value.";
+        return;
+      }
+
+      const indexed = pvals.map((p, i) => ({ p, i }));
+      indexed.sort((a, b) => a.p - b.p);
+
+      const n = pvals.length;
+      let adjusted = new Array(n);
+
+      for (let rank = 0; rank < n; rank++) {
+        adjusted[rank] = (indexed[rank].p * n) / (rank + 1);
+      }
+
+      for (let i = n - 2; i >= 0; i--) {
+        adjusted[i] = Math.min(adjusted[i], adjusted[i + 1]);
+      }
+
+      const finalAdjusted = new Array(n);
+      for (let rank = 0; rank < n; rank++) {
+        finalAdjusted[indexed[rank].i] = Math.min(adjusted[rank], 1);
+      }
+
+      let output = "Original p-values and FDR-adjusted p-values:\n\n";
+      for (let i = 0; i < n; i++) {
+        output += "p = " + pvals[i] + "   ->   FDR = " + finalAdjusted[i].toFixed(6) + "\n";
+      }
+
+      resultBox.textContent = output;
+    }
+  </script>
 
 </body>
 </html>
