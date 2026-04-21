@@ -2,239 +2,828 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Statistical Tests</title>
 
-  <!-- jStat library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.4/jstat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jstat/1.9.6/jstat.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.min.js"></script>
 
   <style>
     body {
-      font-family: Arial;
-      background: #f8fafc;
+      font-family: Arial, sans-serif;
       margin: 0;
+      background: #f8fafc;
+      color: #1f2937;
     }
 
     header {
       background: #2563eb;
       color: white;
-      padding: 25px;
+      padding: 32px 20px;
       text-align: center;
     }
 
     nav {
       background: #1e40af;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
     }
 
     nav a {
       color: white;
-      margin: 0 15px;
       text-decoration: none;
+      margin: 0 14px;
       font-weight: bold;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 30px auto;
       padding: 20px;
     }
 
     .card {
       background: white;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 25px;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 24px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    textarea, input {
+    h2 {
+      color: #2563eb;
+      margin-top: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      color: #1e3a8a;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    .small {
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    textarea, input, select {
       width: 100%;
-      padding: 8px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
     }
 
     button {
       background: #2563eb;
       color: white;
       border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
+      padding: 10px 18px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #1d4ed8;
     }
 
     .result {
-      margin-top: 10px;
+      margin-top: 14px;
       background: #eff6ff;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
       padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #e0ecff;
+    }
+
+    code {
+      background: #eef2ff;
+      padding: 2px 6px;
       border-radius: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      background: #e5e7eb;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 850px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Statistical Tests</h1>
-</header>
+  <header>
+    <h1>Statistical Tests</h1>
+    <p>Interactive basic biostatistics tools for your website</p>
+  </header>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="stats-tests.html">Stat Tests</a>
-</nav>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="rna-seq.html">RNA-seq Data Analysis</a>
+    <a href="stats-bio.html">Stats in Bio</a>
+    <a href="stats-tests.html">Statistical Tests</a>
+    <a href="about.html">About Me</a>
+  </nav>
 
-<div class="container">
+  <div class="container">
 
-  <!-- ONE SAMPLE -->
-  <div class="card">
-    <h2>One-Sample t-test</h2>
-    <p>Compare sample mean to a known value</p>
+    <div class="card">
+      <h2>Quick guide</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Test Name</th>
+            <th>Purpose</th>
+            <th>Example Use Case</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>One-Sample t-test</td>
+            <td>Compares a sample mean to a known population mean.</td>
+            <td>Comparing the weight of a lab-grown mouse strain to a known standard.</td>
+          </tr>
+          <tr>
+            <td>Independent Samples t-test</td>
+            <td>Compares means of two independent groups.</td>
+            <td>Testing if a drug treatment changes protein expression compared to a control.</td>
+          </tr>
+          <tr>
+            <td>Paired Samples t-test</td>
+            <td>Compares means from the same group at different times.</td>
+            <td>Measuring blood glucose levels in the same subjects before and after a meal.</td>
+          </tr>
+          <tr>
+            <td>One-Way ANOVA</td>
+            <td>Compares means across three or more independent groups.</td>
+            <td>Comparing the effect of four different dosages of a hormone.</td>
+          </tr>
+          <tr>
+            <td>Two-Way ANOVA</td>
+            <td>Compares means across two independent variables (factors).</td>
+            <td>Testing the effects of both Genotype and Diet on weight gain.</td>
+          </tr>
+          <tr>
+            <td>Repeated Measures ANOVA</td>
+            <td>Extension of the paired t-test for three or more time points.</td>
+            <td>Monitoring heart rate every hour for six hours after an injection.</td>
+          </tr>
+          <tr>
+            <td>MANOVA</td>
+            <td>Compares groups using multiple dependent variables at once.</td>
+            <td>Measuring height, weight, and leaf area across different soil types.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="small">
+        Enter numbers separated by commas. For grouped data, follow the example format shown in each section.
+      </p>
+    </div>
 
-    <textarea id="oneSampleData" placeholder="1,2,3,4"></textarea>
-    <input id="populationMean" placeholder="Population mean (e.g. 2.5)" />
+    <div class="card">
+      <h2>1) One-Sample t-test</h2>
+      <p><strong>Purpose:</strong> Compare one sample mean to a known value.</p>
+      <p><strong>Example:</strong> Compare average mouse weight to a known standard.</p>
 
-    <button onclick="oneSample()">Run</button>
-    <div id="oneSampleResult" class="result"></div>
+      <label>Sample values</label>
+      <textarea id="oneSampleValues" rows="4" placeholder="21.2, 22.1, 20.9, 21.8, 22.5"></textarea>
+
+      <label>Known population mean</label>
+      <input id="oneSampleMu" type="number" step="any" placeholder="21.0" />
+
+      <button onclick="runOneSampleT()">Run One-Sample t-test</button>
+      <div id="oneSampleResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>2) Independent Samples t-test</h2>
+      <p><strong>Purpose:</strong> Compare means of two independent groups.</p>
+      <p><strong>Example:</strong> Drug treatment vs control.</p>
+
+      <div class="grid-2">
+        <div>
+          <label>Group 1</label>
+          <textarea id="independentGroup1" rows="4" placeholder="5.1, 5.4, 5.0, 5.3"></textarea>
+        </div>
+        <div>
+          <label>Group 2</label>
+          <textarea id="independentGroup2" rows="4" placeholder="4.8, 4.7, 4.9, 4.6"></textarea>
+        </div>
+      </div>
+
+      <button onclick="runIndependentT()">Run Independent t-test</button>
+      <div id="independentResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>3) Paired Samples t-test</h2>
+      <p><strong>Purpose:</strong> Compare matched measurements.</p>
+      <p><strong>Example:</strong> Blood glucose before and after a meal in the same subjects.</p>
+
+      <div class="grid-2">
+        <div>
+          <label>Before</label>
+          <textarea id="pairedBefore" rows="4" placeholder="88, 91, 85, 94, 89"></textarea>
+        </div>
+        <div>
+          <label>After</label>
+          <textarea id="pairedAfter" rows="4" placeholder="103, 110, 97, 108, 101"></textarea>
+        </div>
+      </div>
+
+      <button onclick="runPairedT()">Run Paired t-test</button>
+      <div id="pairedResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>4) One-Way ANOVA</h2>
+      <p><strong>Purpose:</strong> Compare means across three or more independent groups.</p>
+      <p><strong>Example:</strong> Four hormone dosage groups.</p>
+      <p class="small">Enter one group per line.</p>
+
+      <textarea id="oneWayAnovaInput" rows="7" placeholder="4.1, 4.5, 4.2
+5.0, 5.1, 5.3
+6.2, 6.1, 5.9
+7.0, 6.8, 7.1"></textarea>
+
+      <button onclick="runOneWayANOVA()">Run One-Way ANOVA</button>
+      <div id="oneWayAnovaResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>5) Two-Way ANOVA</h2>
+      <p><strong>Purpose:</strong> Test two factors and their interaction.</p>
+      <p><strong>Example:</strong> Genotype and Diet affecting weight gain.</p>
+      <p class="small">
+        Format: one observation per line as <code>FactorA, FactorB, Value</code><br>
+        Example:<br>
+        WT, HighFat, 23.1<br>
+        WT, HighFat, 24.0<br>
+        WT, Normal, 20.4<br>
+        KO, HighFat, 27.2
+      </p>
+
+      <textarea id="twoWayAnovaInput" rows="10" placeholder="WT, HighFat, 23.1
+WT, HighFat, 24.0
+WT, Normal, 20.4
+WT, Normal, 21.0
+KO, HighFat, 27.2
+KO, HighFat, 26.8
+KO, Normal, 22.3
+KO, Normal, 22.7"></textarea>
+
+      <button onclick="runTwoWayANOVA()">Run Two-Way ANOVA</button>
+      <div id="twoWayAnovaResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>6) Repeated Measures ANOVA</h2>
+      <p><strong>Purpose:</strong> Compare repeated measurements from the same subjects over three or more time points.</p>
+      <p><strong>Example:</strong> Heart rate every hour for six hours after injection.</p>
+      <p class="small">Enter one subject per line, with time points separated by commas.</p>
+
+      <textarea id="repeatedMeasuresInput" rows="8" placeholder="72, 75, 78, 80
+70, 73, 76, 79
+68, 71, 74, 77
+74, 76, 79, 82"></textarea>
+
+      <button onclick="runRepeatedMeasuresANOVA()">Run Repeated Measures ANOVA</button>
+      <div id="repeatedMeasuresResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>7) MANOVA</h2>
+      <p><strong>Purpose:</strong> Compare groups using multiple dependent variables together.</p>
+      <p><strong>Example:</strong> Height, weight, and leaf area across soil types.</p>
+      <p class="small">
+        Format: one observation per line as <code>Group, var1, var2, var3, ...</code><br>
+        Example:<br>
+        SoilA, 10.1, 20.2, 5.4<br>
+        SoilA, 10.5, 19.8, 5.6<br>
+        SoilB, 12.0, 22.1, 6.3
+      </p>
+
+      <textarea id="manovaInput" rows="10" placeholder="SoilA, 10.1, 20.2, 5.4
+SoilA, 10.5, 19.8, 5.6
+SoilA, 9.9, 20.5, 5.3
+SoilB, 12.0, 22.1, 6.3
+SoilB, 11.8, 21.9, 6.0
+SoilB, 12.2, 22.4, 6.2
+SoilC, 13.1, 23.5, 6.8
+SoilC, 12.9, 23.2, 6.7
+SoilC, 13.4, 23.8, 6.9"></textarea>
+
+      <button onclick="runMANOVA()">Run MANOVA</button>
+      <div id="manovaResult" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>Notes</h2>
+      <p class="small">
+        This page is designed for educational and practical basic analysis. It does real calculations in the browser, but it does not replace a full statistical workflow in R, Python, SPSS, or Prism. For publication-grade analyses, you should still verify assumptions and rerun the final model in your main analysis pipeline.
+      </p>
+    </div>
+
   </div>
 
-  <!-- INDEPENDENT -->
-  <div class="card">
-    <h2>Independent Samples t-test</h2>
+  <footer>
+    Made by Sahel | Interactive biostatistics tools
+  </footer>
 
-    <textarea id="ind1" placeholder="Group 1"></textarea>
-    <textarea id="ind2" placeholder="Group 2"></textarea>
+  <script>
+    function parseNumbers(text) {
+      return text
+        .split(/[\s,]+/)
+        .map(x => x.trim())
+        .filter(x => x !== "")
+        .map(Number)
+        .filter(x => !isNaN(x));
+    }
 
-    <button onclick="independentT()">Run</button>
-    <div id="indResult" class="result"></div>
-  </div>
+    function mean(arr) {
+      return arr.reduce((a, b) => a + b, 0) / arr.length;
+    }
 
-  <!-- PAIRED -->
-  <div class="card">
-    <h2>Paired t-test</h2>
+    function variance(arr) {
+      const m = mean(arr);
+      return arr.reduce((s, x) => s + (x - m) ** 2, 0) / (arr.length - 1);
+    }
 
-    <textarea id="p1" placeholder="Before"></textarea>
-    <textarea id="p2" placeholder="After"></textarea>
+    function sum(arr) {
+      return arr.reduce((a, b) => a + b, 0);
+    }
 
-    <button onclick="pairedT()">Run</button>
-    <div id="pairedResult" class="result"></div>
-  </div>
+    function formatP(p) {
+      if (!isFinite(p)) return "NA";
+      if (p < 0.0001) return p.toExponential(4);
+      return p.toFixed(6);
+    }
 
-  <!-- ONE WAY ANOVA -->
-  <div class="card">
-    <h2>One-Way ANOVA</h2>
-    <p>Enter groups separated by new lines</p>
+    function setResult(id, text) {
+      document.getElementById(id).textContent = text;
+    }
 
-    <textarea id="anovaData" placeholder="1,2,3
-2,3,4
-5,6,7"></textarea>
+    function runOneSampleT() {
+      const x = parseNumbers(document.getElementById("oneSampleValues").value);
+      const mu = parseFloat(document.getElementById("oneSampleMu").value);
 
-    <button onclick="anova()">Run</button>
-    <div id="anovaResult" class="result"></div>
-  </div>
+      if (x.length < 2 || isNaN(mu)) {
+        setResult("oneSampleResult", "Please enter at least 2 sample values and a valid population mean.");
+        return;
+      }
 
-  <!-- PLACEHOLDERS -->
-  <div class="card">
-    <h2>Coming next</h2>
-    <p>
-      Two-Way ANOVA, Repeated Measures ANOVA, and MANOVA will be added in the next version.
-      These require more advanced modeling logic.
-    </p>
-  </div>
+      const m = mean(x);
+      const s2 = variance(x);
+      const n = x.length;
+      const t = (m - mu) / Math.sqrt(s2 / n);
+      const df = n - 1;
+      const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), df));
 
-</div>
+      setResult(
+        "oneSampleResult",
+        `n = ${n}
+sample mean = ${m.toFixed(6)}
+population mean = ${mu.toFixed(6)}
+t = ${t.toFixed(6)}
+df = ${df}
+p = ${formatP(p)}`
+      );
+    }
 
-<script>
-function parse(str) {
-  return str.split(/[\s,]+/).map(Number).filter(x => !isNaN(x));
-}
+    function runIndependentT() {
+      const g1 = parseNumbers(document.getElementById("independentGroup1").value);
+      const g2 = parseNumbers(document.getElementById("independentGroup2").value);
 
-function mean(arr) {
-  return arr.reduce((a,b)=>a+b,0)/arr.length;
-}
+      if (g1.length < 2 || g2.length < 2) {
+        setResult("independentResult", "Please enter at least 2 values in each group.");
+        return;
+      }
 
-function variance(arr) {
-  const m = mean(arr);
-  return arr.reduce((s,x)=>s+(x-m)**2,0)/(arr.length-1);
-}
+      const n1 = g1.length, n2 = g2.length;
+      const m1 = mean(g1), m2 = mean(g2);
+      const v1 = variance(g1), v2 = variance(g2);
 
-function oneSample() {
-  const data = parse(document.getElementById("oneSampleData").value);
-  const mu = parseFloat(document.getElementById("populationMean").value);
+      const t = (m1 - m2) / Math.sqrt(v1 / n1 + v2 / n2);
 
-  const m = mean(data);
-  const sd = Math.sqrt(variance(data));
-  const t = (m - mu) / (sd / Math.sqrt(data.length));
+      const dfNumer = (v1 / n1 + v2 / n2) ** 2;
+      const dfDenom = ((v1 / n1) ** 2) / (n1 - 1) + ((v2 / n2) ** 2) / (n2 - 1);
+      const df = dfNumer / dfDenom;
 
-  const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), data.length-1));
+      const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), df));
 
-  document.getElementById("oneSampleResult").innerText =
-    `t = ${t.toFixed(4)}, p = ${p.toExponential(3)}`;
-}
+      setResult(
+        "independentResult",
+        `Group 1: n = ${n1}, mean = ${m1.toFixed(6)}
+Group 2: n = ${n2}, mean = ${m2.toFixed(6)}
+Welch t = ${t.toFixed(6)}
+df = ${df.toFixed(6)}
+p = ${formatP(p)}`
+      );
+    }
 
-function independentT() {
-  const g1 = parse(document.getElementById("ind1").value);
-  const g2 = parse(document.getElementById("ind2").value);
+    function runPairedT() {
+      const a = parseNumbers(document.getElementById("pairedBefore").value);
+      const b = parseNumbers(document.getElementById("pairedAfter").value);
 
-  const m1 = mean(g1), m2 = mean(g2);
-  const v1 = variance(g1), v2 = variance(g2);
+      if (a.length !== b.length || a.length < 2) {
+        setResult("pairedResult", "Please enter the same number of values in both boxes, with at least 2 pairs.");
+        return;
+      }
 
-  const t = (m1 - m2) / Math.sqrt(v1/g1.length + v2/g2.length);
+      const d = a.map((x, i) => b[i] - x);
+      const n = d.length;
+      const md = mean(d);
+      const vd = variance(d);
+      const t = md / Math.sqrt(vd / n);
+      const df = n - 1;
+      const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), df));
 
-  const df = g1.length + g2.length - 2;
-  const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), df));
+      setResult(
+        "pairedResult",
+        `pairs = ${n}
+mean difference = ${md.toFixed(6)}
+t = ${t.toFixed(6)}
+df = ${df}
+p = ${formatP(p)}`
+      );
+    }
 
-  document.getElementById("indResult").innerText =
-    `t = ${t.toFixed(4)}, p = ${p.toExponential(3)}`;
-}
+    function runOneWayANOVA() {
+      const lines = document.getElementById("oneWayAnovaInput").value.trim().split("\n").filter(Boolean);
+      const groups = lines.map(parseNumbers).filter(g => g.length > 0);
 
-function pairedT() {
-  const g1 = parse(document.getElementById("p1").value);
-  const g2 = parse(document.getElementById("p2").value);
+      if (groups.length < 3 || groups.some(g => g.length < 2)) {
+        setResult("oneWayAnovaResult", "Please enter at least 3 groups, with at least 2 values per group.");
+        return;
+      }
 
-  const diffs = g1.map((x,i)=>g2[i]-x);
+      const all = groups.flat();
+      const grandMean = mean(all);
 
-  const m = mean(diffs);
-  const sd = Math.sqrt(variance(diffs));
+      let ssBetween = 0;
+      let ssWithin = 0;
 
-  const t = m / (sd/Math.sqrt(diffs.length));
-  const p = 2 * (1 - jStat.studentt.cdf(Math.abs(t), diffs.length-1));
+      groups.forEach(g => {
+        const gm = mean(g);
+        ssBetween += g.length * (gm - grandMean) ** 2;
+        ssWithin += g.reduce((s, x) => s + (x - gm) ** 2, 0);
+      });
 
-  document.getElementById("pairedResult").innerText =
-    `t = ${t.toFixed(4)}, p = ${p.toExponential(3)}`;
-}
+      const dfBetween = groups.length - 1;
+      const dfWithin = all.length - groups.length;
 
-function anova() {
-  const groups = document.getElementById("anovaData").value
-    .trim().split("\n").map(parse);
+      const msBetween = ssBetween / dfBetween;
+      const msWithin = ssWithin / dfWithin;
+      const F = msBetween / msWithin;
+      const p = 1 - jStat.centralF.cdf(F, dfBetween, dfWithin);
 
-  const all = groups.flat();
-  const grandMean = mean(all);
+      setResult(
+        "oneWayAnovaResult",
+        `groups = ${groups.length}
+total n = ${all.length}
+SS_between = ${ssBetween.toFixed(6)}
+SS_within = ${ssWithin.toFixed(6)}
+F = ${F.toFixed(6)}
+df1 = ${dfBetween}
+df2 = ${dfWithin}
+p = ${formatP(p)}`
+      );
+    }
 
-  let ssBetween = 0;
-  let ssWithin = 0;
+    function runTwoWayANOVA() {
+      const raw = document.getElementById("twoWayAnovaInput").value.trim();
+      if (!raw) {
+        setResult("twoWayAnovaResult", "Please enter data.");
+        return;
+      }
 
-  groups.forEach(g => {
-    const m = mean(g);
-    ssBetween += g.length * (m - grandMean) ** 2;
-    ssWithin += g.reduce((s,x)=>s+(x-m)**2,0);
-  });
+      const rows = raw.split("\n").map(line => line.split(",").map(x => x.trim()));
+      if (rows.some(r => r.length !== 3 || isNaN(Number(r[2])))) {
+        setResult("twoWayAnovaResult", "Each line must be: FactorA, FactorB, Value");
+        return;
+      }
 
-  const dfBetween = groups.length - 1;
-  const dfWithin = all.length - groups.length;
+      const data = rows.map(r => ({ A: r[0], B: r[1], y: Number(r[2]) }));
+      const levelsA = [...new Set(data.map(d => d.A))];
+      const levelsB = [...new Set(data.map(d => d.B))];
 
-  const msBetween = ssBetween / dfBetween;
-  const msWithin = ssWithin / dfWithin;
+      if (levelsA.length < 2 || levelsB.length < 2) {
+        setResult("twoWayAnovaResult", "You need at least 2 levels in each factor.");
+        return;
+      }
 
-  const F = msBetween / msWithin;
+      const grandMean = mean(data.map(d => d.y));
+      const totalN = data.length;
 
-  const p = 1 - jStat.centralF.cdf(F, dfBetween, dfWithin);
+      const byA = {};
+      const byB = {};
+      const byAB = {};
 
-  document.getElementById("anovaResult").innerText =
-    `F = ${F.toFixed(4)}, p = ${p.toExponential(3)}`;
-}
-</script>
+      data.forEach(d => {
+        if (!byA[d.A]) byA[d.A] = [];
+        if (!byB[d.B]) byB[d.B] = [];
+        const key = `${d.A}|||${d.B}`;
+        if (!byAB[key]) byAB[key] = [];
+        byA[d.A].push(d.y);
+        byB[d.B].push(d.y);
+        byAB[key].push(d.y);
+      });
+
+      const ssTotal = data.reduce((s, d) => s + (d.y - grandMean) ** 2, 0);
+
+      let ssA = 0;
+      levelsA.forEach(a => {
+        ssA += byA[a].length * (mean(byA[a]) - grandMean) ** 2;
+      });
+
+      let ssB = 0;
+      levelsB.forEach(b => {
+        ssB += byB[b].length * (mean(byB[b]) - grandMean) ** 2;
+      });
+
+      let ssCells = 0;
+      Object.keys(byAB).forEach(k => {
+        ssCells += byAB[k].length * (mean(byAB[k]) - grandMean) ** 2;
+      });
+
+      const ssInteraction = ssCells - ssA - ssB;
+
+      let ssError = 0;
+      Object.keys(byAB).forEach(k => {
+        const m = mean(byAB[k]);
+        ssError += byAB[k].reduce((s, x) => s + (x - m) ** 2, 0);
+      });
+
+      const dfA = levelsA.length - 1;
+      const dfB = levelsB.length - 1;
+      const dfInteraction = dfA * dfB;
+      const dfError = totalN - levelsA.length * levelsB.length;
+
+      if (dfError <= 0) {
+        setResult("twoWayAnovaResult", "Not enough replication per cell. You need repeated observations for factor combinations.");
+        return;
+      }
+
+      const msA = ssA / dfA;
+      const msB = ssB / dfB;
+      const msInteraction = ssInteraction / dfInteraction;
+      const msError = ssError / dfError;
+
+      const FA = msA / msError;
+      const FB = msB / msError;
+      const FI = msInteraction / msError;
+
+      const pA = 1 - jStat.centralF.cdf(FA, dfA, dfError);
+      const pB = 1 - jStat.centralF.cdf(FB, dfB, dfError);
+      const pI = 1 - jStat.centralF.cdf(FI, dfInteraction, dfError);
+
+      setResult(
+        "twoWayAnovaResult",
+        `Factor A levels = ${levelsA.length}
+Factor B levels = ${levelsB.length}
+total n = ${totalN}
+
+Factor A:
+  SS = ${ssA.toFixed(6)}
+  F = ${FA.toFixed(6)}
+  df1 = ${dfA}, df2 = ${dfError}
+  p = ${formatP(pA)}
+
+Factor B:
+  SS = ${ssB.toFixed(6)}
+  F = ${FB.toFixed(6)}
+  df1 = ${dfB}, df2 = ${dfError}
+  p = ${formatP(pB)}
+
+Interaction:
+  SS = ${ssInteraction.toFixed(6)}
+  F = ${FI.toFixed(6)}
+  df1 = ${dfInteraction}, df2 = ${dfError}
+  p = ${formatP(pI)}`
+      );
+    }
+
+    function runRepeatedMeasuresANOVA() {
+      const raw = document.getElementById("repeatedMeasuresInput").value.trim();
+      if (!raw) {
+        setResult("repeatedMeasuresResult", "Please enter data.");
+        return;
+      }
+
+      const matrix = raw.split("\n")
+        .map(line => parseNumbers(line))
+        .filter(r => r.length > 0);
+
+      if (matrix.length < 2) {
+        setResult("repeatedMeasuresResult", "Please enter at least 2 subjects.");
+        return;
+      }
+
+      const k = matrix[0].length;
+      if (k < 3 || matrix.some(r => r.length !== k)) {
+        setResult("repeatedMeasuresResult", "Each subject must have the same number of time points, and there must be at least 3 time points.");
+        return;
+      }
+
+      const n = matrix.length;
+      const flat = matrix.flat();
+      const grandMean = mean(flat);
+
+      const subjectMeans = matrix.map(r => mean(r));
+      const timeMeans = Array.from({ length: k }, (_, j) => mean(matrix.map(r => r[j])));
+
+      let ssTotal = 0;
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < k; j++) {
+          ssTotal += (matrix[i][j] - grandMean) ** 2;
+        }
+      }
+
+      const ssSubjects = k * subjectMeans.reduce((s, m) => s + (m - grandMean) ** 2, 0);
+      const ssTime = n * timeMeans.reduce((s, m) => s + (m - grandMean) ** 2, 0);
+      const ssError = ssTotal - ssSubjects - ssTime;
+
+      const dfSubjects = n - 1;
+      const dfTime = k - 1;
+      const dfError = dfSubjects * dfTime;
+
+      const msTime = ssTime / dfTime;
+      const msError = ssError / dfError;
+      const F = msTime / msError;
+      const p = 1 - jStat.centralF.cdf(F, dfTime, dfError);
+
+      setResult(
+        "repeatedMeasuresResult",
+        `subjects = ${n}
+time points = ${k}
+SS_time = ${ssTime.toFixed(6)}
+SS_error = ${ssError.toFixed(6)}
+F = ${F.toFixed(6)}
+df1 = ${dfTime}
+df2 = ${dfError}
+p = ${formatP(p)}
+
+Note: this is a one-factor repeated measures ANOVA without sphericity correction.`
+      );
+    }
+
+    function determinantSafe(M) {
+      const det = math.det(M);
+      if (!isFinite(det) || det <= 0) return 1e-12;
+      return det;
+    }
+
+    function runMANOVA() {
+      const raw = document.getElementById("manovaInput").value.trim();
+      if (!raw) {
+        setResult("manovaResult", "Please enter data.");
+        return;
+      }
+
+      const rows = raw.split("\n").map(line => line.split(",").map(x => x.trim()));
+      if (rows.length < 3) {
+        setResult("manovaResult", "Please enter more observations.");
+        return;
+      }
+
+      const parsed = rows.map(r => ({
+        group: r[0],
+        values: r.slice(1).map(Number)
+      }));
+
+      if (parsed.some(r => r.values.length < 2 || r.values.some(v => isNaN(v)))) {
+        setResult("manovaResult", "Each line must be: Group, var1, var2, var3, ... with numeric variables.");
+        return;
+      }
+
+      const pVars = parsed[0].values.length;
+      if (parsed.some(r => r.values.length !== pVars)) {
+        setResult("manovaResult", "All rows must have the same number of dependent variables.");
+        return;
+      }
+
+      const groups = [...new Set(parsed.map(r => r.group))];
+      if (groups.length < 2) {
+        setResult("manovaResult", "You need at least 2 groups.");
+        return;
+      }
+
+      const grouped = {};
+      groups.forEach(g => grouped[g] = []);
+      parsed.forEach(r => grouped[r.group].push(r.values));
+
+      if (groups.some(g => grouped[g].length < 2)) {
+        setResult("manovaResult", "Each group should have at least 2 observations.");
+        return;
+      }
+
+      const N = parsed.length;
+      const g = groups.length;
+      const allData = parsed.map(r => r.values);
+
+      const grandMean = Array.from({ length: pVars }, (_, j) => mean(allData.map(v => v[j])));
+
+      let E = math.zeros(pVars, pVars).toArray();
+      let H = math.zeros(pVars, pVars).toArray();
+
+      groups.forEach(group => {
+        const X = grouped[group];
+        const n_i = X.length;
+        const mean_i = Array.from({ length: pVars }, (_, j) => mean(X.map(v => v[j])));
+
+        X.forEach(row => {
+          const diff = math.subtract(row, mean_i);
+          const outer = math.multiply(
+            math.reshape(diff, [pVars, 1]),
+            math.reshape(diff, [1, pVars])
+          );
+          E = math.add(E, outer);
+        });
+
+        const meanDiff = math.subtract(mean_i, grandMean);
+        const outerH = math.multiply(
+          math.reshape(meanDiff, [pVars, 1]),
+          math.reshape(meanDiff, [1, pVars])
+        );
+        H = math.add(H, math.multiply(n_i, outerH));
+      });
+
+      const T = math.add(E, H);
+
+      const detE = determinantSafe(E);
+      const detT = determinantSafe(T);
+      const wilksLambda = detE / detT;
+
+      const df1 = pVars * (g - 1);
+      const t = Math.sqrt(
+        ((pVars * pVars * (g - 1) * (g - 1) - 4) / (pVars * pVars + (g - 1) * (g - 1) - 5))
+      );
+
+      const df2 = Math.max(1, Math.round((N - 1) - (pVars + g) / 2));
+      const lambdaPow = Math.pow(wilksLambda, 1 / t);
+      const Fapprox = ((1 - lambdaPow) / lambdaPow) * (df2 / df1);
+      const pApprox = 1 - jStat.centralF.cdf(Fapprox, df1, df2);
+
+      setResult(
+        "manovaResult",
+        `groups = ${g}
+total n = ${N}
+dependent variables = ${pVars}
+Wilks' lambda = ${wilksLambda.toFixed(6)}
+approx F = ${Fapprox.toFixed(6)}
+df1 = ${df1}
+df2 ≈ ${df2}
+approx p = ${formatP(pApprox)}
+
+Note: this MANOVA section reports Wilks' lambda with an approximate F transformation.`
+      );
+    }
+  </script>
 
 </body>
 </html>
